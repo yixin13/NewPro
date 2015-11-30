@@ -1,0 +1,41 @@
+#include"SeqList.h"
+#include<assert.h>
+
+bool IsFull(SeqList *list)
+{
+	return list->size >= list->capacity;
+}
+bool IsEmpty(SeqList *list)
+{
+	return list->size==0;
+}
+
+bool Inc(SeqList *list)
+{
+	list->capacity += INC_SIZE;
+	realloc(list->elem,sizeof(ElemType)*list->capacity);
+	if(list->elem == NULL)
+	{
+		list->capacity -= INC_SIZE;
+		return false;
+	}
+	return true;
+}
+
+void InitSeqList(SeqList *list)
+{
+	list->elem = (ElemType *)malloc(sizeof(ElemType)*ELEM_INIT_SIZE);
+	assert(list->elem != NULL);
+	list->capacity = ELEM_INIT_SIZE;
+	list->size = 0;
+}
+
+void push_back(SeqList *list, ElemType x)
+{
+	if(IsFull(list) && !Inc(list))
+	{
+		cout<<"空间已满,不能插入元素!"<<endl;
+		return;
+	}
+	list->elem[list->size++] = x;
+}
